@@ -12,3 +12,6 @@ GET     /api/users  controllers.UserController.getListUsers
 GET     /api/users/:id  controllers.UserController.getUserById(id: String)
 PATCH     /api/users/:id  controllers.UserController.updateUser(id: String)
 DELETE   /api/users/:id  controllers.UserController.deleteUser(id: String)
+
+# Swagger UI
+GET   /docs/swagger    controllers.SwaggerController.ui
