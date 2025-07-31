@@ -20,13 +20,14 @@ class AuthService @Inject() (
 )(implicit
   ec: ExecutionContext
 ) {
+
   def authenticate(
     loginRequestDto: LoginRequestDto
   ): Future[LoginResponseDto] = {
-    userRepository.findByEmail(loginRequestDto.email).map {
-      case Some(user)
+    userRepository.findUserWithRoleByEmail(loginRequestDto.email).map {
+      case Some((user, role))
           if BCrypt.checkpw(loginRequestDto.password, user.password) =>
-        val accessToken = jwtService.createToken(loginRequestDto.email)
+        val accessToken = jwtService.createToken(user.email, role)
         val refreshToken = accessToken // temporary refreshToken
         LoginResponseDto(
           accessToken,

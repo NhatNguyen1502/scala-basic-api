@@ -15,10 +15,11 @@ class JwtService @Inject() (config: Configuration) {
   // Implicit clock for JWT time-based claims (iat, exp)
   implicit val clock: Clock = Clock.systemUTC
 
-  def createToken(email: String): String = {
+  def createToken(email: String, role: String): String = {
     val now = clock.instant().getEpochSecond
     val claim = Json.obj(
       ("email", email),
+      ("role", role),
       ("iat", Some(now)),
       ("exp", Some(now + expirationTime))
     )
